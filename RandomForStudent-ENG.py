@@ -17,6 +17,8 @@ from traceback import print_tb
 exceldoc = openpyxl.load_workbook("scuola1.xlsx")
 sheet = exceldoc.active
 
+excelNameSurname=openpyxl.load_workbook("nomiCognomiES.xlsx") 
+sheet2=excelNameSurname.active
 
 # I'm going to create and position the column titles
 
@@ -35,6 +37,23 @@ sheet["K1"].value = "Varianza"
 sheet["L1"].value = "Devianza"
 sheet["M1"].value = "Covarianza"
 sheet["N1"].value = "Coefficiente Angolare"
+
+
+#here I go to get the first and last names in the second file I uploaded
+#in n I'm going to enter the number of how many students I want to generate
+#the function will fetch the names and surnames from the excel file and automatically insert them in the new file
+
+def GeneraStudenti(n):
+    d=0
+    e=0
+    i=0
+    matriceStudenti = []
+    while i<n:
+        c=sheet.cell(row = i + 2, column= 1).value = sheet2.cell(row=i+3,column=1).value
+        d=sheet.cell(row = i + 2, column= 2).value = sheet2.cell(row=i+3,column=2).value
+        matriceStudenti.append(np.array([c, d]))
+        i+=1
+    return matriceStudenti
 
 
 
@@ -228,6 +247,8 @@ def CoefficienteAngolare(listaCovarianze,listaVarianza,n):
 # I pass the number of students for which I want to generate data
 
 studenti=10
+
+GeneraStudenti(studenti)
 
 # I generate votes
 matrice=GeneraVoti(studenti)

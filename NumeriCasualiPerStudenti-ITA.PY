@@ -12,10 +12,14 @@ from cmath import sqrt
 import math
 from traceback import print_tb
 
-#apro il file excel
+#apro i file excel
 #inserire il nome del file excel tra le virgolette
+
 exceldoc = openpyxl.load_workbook("scuola1.xlsx")
 sheet = exceldoc.active
+
+excelNomiCognomi=openpyxl.load_workbook("nomiCognomiES.xlsx") 
+sheet2=excelNomiCognomi.active
 
 
 # vado a creare e posizionare i titoli delle colonne 
@@ -36,6 +40,22 @@ sheet["L1"].value = "Devianza"
 sheet["M1"].value = "Covarianza"
 sheet["N1"].value = "Coefficiente Angolare"
 
+
+#qui vado a prendere i nomi e i cognomi nel secondo file che ho caricato
+#in n vado ad inserire il numero di quanti studenti voglio generare
+#la funzione andrà a prendere dal file excel i nomi e i cognomi è li andrà ad inserire in automatico nel nuovo file
+
+def GeneraStudenti(n):
+    d=0
+    e=0
+    i=0
+    matriceStudenti = []
+    while i<n:
+        c=sheet.cell(row = i + 2, column= 1).value = sheet2.cell(row=i+3,column=1).value
+        d=sheet.cell(row = i + 2, column= 2).value = sheet2.cell(row=i+3,column=2).value
+        matriceStudenti.append(np.array([c, d]))
+        i+=1
+    return matriceStudenti
 
 
 #1) Grazie a questa funzione metti i valori nelle tabelle 
@@ -229,7 +249,10 @@ def CoefficienteAngolare(listaCovarianze,listaVarianza,n):
 # ---------------------------------------------------------- 
 
 #passo il numero di studenti per la quale voglio generare i dati 
-studenti=10
+studenti=90
+
+
+GeneraStudenti(studenti)
 
 #genero i voti 
 matrice=GeneraVoti(studenti)
